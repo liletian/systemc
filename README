@@ -1,0 +1,24 @@
+sudo apt-get install build-essential
+
+sudo mkdir /usr/local/systemc-2.3.3
+
+mkdir objdir
+
+cd objdir
+
+sudo ../configure –prefix=/usr/local/systemc-2.2
+
+sudo make
+
+sudo make install
+
+
+
+
+sudo gedit /etc/environment
+
+SYSTEMC_HOME="/usr/local/systemc-2.3.3/"
+
+export SYSTEMC_HOME=/usr/local/systemc-2.3.3/
+
+g++ -I. -I$SYSTEMC_HOME/include -L. -L$SYSTEMC_HOME/lib-linux64 -Wl,-rpath=$SYSTEMC_HOME/lib-linux64 -o hello hello.cpp -lsystemc -lm
