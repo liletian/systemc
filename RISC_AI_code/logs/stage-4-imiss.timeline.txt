@@ -1,0 +1,60 @@
+cycle    time  event
+    5      50  exc 0x51 user TLB miss            pc 0000 -> vector 0103
+   15     150  exc 0x52 kernel TLB miss          pc 0108 -> vector 010e
+   21     210  tlbw       asid 0: vpn c9 -> pfn 02
+   24     240  rfe        -> resume at 0108
+   30     300  tlbw       asid 9: vpn 00 -> pfn 03
+   34     340  rfe        -> resume at 0000
+   42     420  exc 0x51 user TLB miss            pc 0f00 -> vector 0103
+   53     530  tlbw       asid 9: vpn 0f -> pfn 04
+   57     570  rfe        -> resume at 0f00
+   68     680  exc 0x51 user TLB miss            pc 0e00 -> vector 0103
+   78     780  exc 0x52 kernel TLB miss          pc 0108 -> vector 010e
+   84     840  tlbw       asid 0: vpn c9 -> pfn 02
+   87     870  rfe        -> resume at 0108
+   93     930  tlbw       asid 9: vpn 0e -> pfn 05
+   97     970  rfe        -> resume at 0e00
+  105    1050  exc 0x51 user TLB miss            pc 0004 -> vector 0103
+  116    1160  tlbw       asid 9: vpn 00 -> pfn 03
+  120    1200  rfe        -> resume at 0004
+  128    1280  exc 0x51 user TLB miss            pc 0d00 -> vector 0103
+  138    1380  exc 0x52 kernel TLB miss          pc 0108 -> vector 010e
+  144    1440  tlbw       asid 0: vpn c9 -> pfn 02
+  147    1470  rfe        -> resume at 0108
+  153    1530  tlbw       asid 9: vpn 0d -> pfn 06
+  157    1570  rfe        -> resume at 0d00
+  165    1650  exc 0x51 user TLB miss            pc 0006 -> vector 0103
+  176    1760  tlbw       asid 9: vpn 00 -> pfn 03
+  180    1800  rfe        -> resume at 0006
+  188    1880  exc 0x51 user TLB miss            pc 0c00 -> vector 0103
+  198    1980  exc 0x52 kernel TLB miss          pc 0108 -> vector 010e
+  204    2040  tlbw       asid 0: vpn c9 -> pfn 02
+  207    2070  rfe        -> resume at 0108
+  213    2130  tlbw       asid 9: vpn 0c -> pfn 07
+  217    2170  rfe        -> resume at 0c00
+  225    2250  exc 0x51 user TLB miss            pc 0008 -> vector 0103
+  236    2360  tlbw       asid 9: vpn 00 -> pfn 03
+  240    2400  rfe        -> resume at 0008
+  248    2480  exc 0x51 user TLB miss            pc 0b00 -> vector 0103
+  258    2580  exc 0x52 kernel TLB miss          pc 0108 -> vector 010e
+  264    2640  tlbw       asid 0: vpn c9 -> pfn 02
+  267    2670  rfe        -> resume at 0108
+  273    2730  tlbw       asid 9: vpn 0b -> pfn 08
+  277    2770  rfe        -> resume at 0b00
+  285    2850  exc 0x51 user TLB miss            pc 000a -> vector 0103
+  296    2960  tlbw       asid 9: vpn 00 -> pfn 03
+  300    3000  rfe        -> resume at 000a
+  308    3080  exc 0x51 user TLB miss            pc 0a00 -> vector 0103
+  318    3180  exc 0x52 kernel TLB miss          pc 0108 -> vector 010e
+  324    3240  tlbw       asid 0: vpn c9 -> pfn 02
+  327    3270  rfe        -> resume at 0108
+  333    3330  tlbw       asid 9: vpn 0a -> pfn 09
+  337    3370  rfe        -> resume at 0a00
+  345    3450  exc 0x51 user TLB miss            pc 000c -> vector 0103
+  356    3560  tlbw       asid 9: vpn 00 -> pfn 03
+  360    3600  rfe        -> resume at 000c
+  365    3650  exc 0x71 trap HALT (system call)  pc 000c -> vector 0102
+  370    3700  halt: sys MODE_HALT from pc 0102
+
+371 cycles; final user regs r1-r7: 0001 0002 0003 0004 000a 000b 000c
+final control regs cr1-cr3, PSR, cr5-cr7:    0009 8003 c900 0089 0000 0000 000d

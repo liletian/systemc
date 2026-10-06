@@ -1,0 +1,6 @@
+cycle    time  event
+    5      50  exc 0x71 trap HALT (system call)  pc 0000 -> vector 0042
+   10     100  halt: sys MODE_HALT from pc 0042
+
+11 cycles; final user regs r1-r7: 0000 0000 0000 0000 0000 0000 0000
+final control regs cr1-cr3, PSR, cr5-cr7:    0000 0000 0000 0089 0000 0000 0001

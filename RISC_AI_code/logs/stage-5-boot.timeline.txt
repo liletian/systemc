@@ -1,0 +1,11 @@
+cycle    time  event
+   40     400  rfe        -> resume at 0000
+   45     450  exc 0x51 user TLB miss            pc 0000 -> vector 0103
+   55     550  exc 0x52 kernel TLB miss          pc 0108 -> vector 010e
+   61     610  tlbw       asid 0: vpn d1 -> pfn 02
+   64     640  rfe        -> resume at 0108
+   70     700  tlbw       asid 17: vpn 00 -> pfn 03
+   74     740  rfe        -> resume at 0000
+
+101 cycles; final user regs r1-r7: 0000 0000 0000 0000 0000 0000 0000
+final control regs cr1-cr3, PSR, cr5-cr7:    0011 8003 d100 0011 0000 0000 0001

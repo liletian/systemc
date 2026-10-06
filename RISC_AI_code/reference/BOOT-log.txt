@@ -1,0 +1,167 @@
+// 
+// This is an annotated output file ... each line containing the program counter value
+// (gotten from the "ncverilog.log" file via "grep Fetch") represents the state of the 
+// machine on that cycle ... code entry points in most cases are chosen to be easily
+// understood ... the different phases:
+//
+// - boot ROM (sets up a few things, loads OS kernel, creates a single process, jumps to it
+// - user-code execution, which fails immediately (no page table, no TLB entries, no data in memory)
+// - TLB user-miss handler, which faults
+// - TLB kernel-miss handler, which succeeds (the boot ROM set up a single PTE; the handler loads it)
+// - back to user-miss handler, which continues, loads the PTE, finds it to be invalid, jumps to page_fault
+// - page-fault handler (not invoked by an interrupt), which loads the faulintg page, creates an entry in 
+//   the table, puts the PTE in the TLB, and then jumps back to user code, just at the umiss handler would have
+// - back to user code, which simply calls "sys halt" ... 
+// - hardware vectors to system-call handler, halts machine
+
+// addresses:
+// 7e00 - boot ROM
+// 0000 - user code
+// 0100 - TLB user-miss
+// 0120 - TLB kernel miss
+// 0180 - page fault subroutine
+// 01f3 - HALT system call handler
+
+-Fetch  PC=xxxx
+-Fetch  PC=7e00		// begins execution in the boot ROM section (page 0xfe)
+-Fetch  PC=7e01
+-Fetch  PC=7e02
+-Fetch  PC=7e03
+-Fetch  PC=7e04
+-Fetch  PC=7e05
+-Fetch  PC=7e06
+-Fetch  PC=7e07
+-Fetch  PC=7e08
+-Fetch  PC=7e09
+-Fetch  PC=7e0a
+-Fetch  PC=7e0b
+-Fetch  PC=7e0c
+-Fetch  PC=7e0d
+-Fetch  PC=7e0d
+-Fetch  PC=7e0b
+-Fetch  PC=7e0c
+-Fetch  PC=7e0d
+-Fetch  PC=7e0d
+-Fetch  PC=7e0b
+-Fetch  PC=7e0c
+-Fetch  PC=7e0d
+-Fetch  PC=7e0d
+-Fetch  PC=7e0e
+-Fetch  PC=7e0f
+-Fetch  PC=7e10
+-Fetch  PC=7e11
+-Fetch  PC=7e12
+-Fetch  PC=7e13
+-Fetch  PC=7e14
+-Fetch  PC=7e15
+-Fetch  PC=7e16
+-Fetch  PC=7e17
+-Fetch  PC=7e18
+-Fetch  PC=7e19
+-Fetch  PC=7e1a
+-Fetch  PC=7e1b
+-Fetch  PC=7e1c		// by the end, the booot-ROM code has created a single root-level PTE
+-Fetch  PC=7e1d		// for one user-level process (with an arbitrary ASID), it has set up 
+-Fetch  PC=7e1e		// the OS kernel, and at the end, it jumps via "rfe" to user code, addr=0
+
+-Fetch  PC=0000		// the user application begins execution, but the very first instruction
+-Fetch  PC=0001		// fetch causes a TLB miss (no mapping in TLB)
+-Fetch  PC=0002
+-Fetch  PC=0003
+-Fetch  PC=0004
+
+-Fetch  PC=0100		// the TLB user-miss handler starts running to find the PTE and load it.
+-Fetch  PC=0101
+-Fetch  PC=0102		// the user-miss handler does this by making a virtual reference to the PTE;
+-Fetch  PC=0103		// for this to succeed, the kernel-PTE must be in the TLB.  we know that the
+-Fetch  PC=0104		// kernel-PTE exists (the boot ROM code initialized it), but there is no
+-Fetch  PC=0105		// reason to expect that it is in the TLB ... so this virtual reference is
+-Fetch  PC=0106		// going to fail ...
+-Fetch  PC=0107
+-Fetch  PC=0108
+-Fetch  PC=0109
+
+-Fetch  PC=0120		// ... causing the kernel-miss handler to run
+-Fetch  PC=0121
+-Fetch  PC=0122
+-Fetch  PC=0123
+-Fetch  PC=0124
+-Fetch  PC=0125
+-Fetch  PC=0126
+-Fetch  PC=0127
+-Fetch  PC=012a
+-Fetch  PC=012b
+-Fetch  PC=012c
+-Fetch  PC=012d
+-Fetch  PC=012e
+-Fetch  PC=012f
+-Fetch  PC=0130
+-Fetch  PC=0131		// the kernel-miss handler succeeds, and we return to the user-miss handler:
+
+-Fetch  PC=0105		// ... here.
+-Fetch  PC=0106
+-Fetch  PC=0107		// the user-miss handler successfully loads the user-PTE from the memory 
+-Fetch  PC=0108		// system (the kernel-miss TLB handler put the appropriate mapping into the 
+-Fetch  PC=0109		// TLB, so this would work).  however, it is invalid -- nobody has set it up yet.
+-Fetch  PC=010a
+-Fetch  PC=010b
+-Fetch  PC=010c
+-Fetch  PC=010d		// so, after validity-checking, we just straight to
+
+-Fetch  PC=0180		// ... the page-fault handler (not an interrupt handler but a subroutine
+-Fetch  PC=0181		// that we jump directly to).
+-Fetch  PC=0182
+-Fetch  PC=0183		// the page-fault handler checks the address ... if it is small (in the first
+-Fetch  PC=0184		// 16 pages of the application's memory space ... a but hard-coded, yes, but 
+-Fetch  PC=0185		// it works), then we assume the page comes from the program file & load it
+-Fetch  PC=0185		// the same way that the booot-ROM code loaded data from the OS file.  otherwise,
+-Fetch  PC=0186		// we just "create" the memory.  either way, the page is chosen to be the first
+-Fetch  PC=0187		// free page in memory (one of the first few word in memory specifies which is 
+-Fetch  PC=0187		// the next available block ... monotonically shrinking, but it works for now).
+-Fetch  PC=0188		// we set up a user-page-table entry and initialize it, put it into the TLB, etc.
+-Fetch  PC=0189		// basically, do everything that the user-level TLB-miss handler does
+-Fetch  PC=018a
+-Fetch  PC=018b
+-Fetch  PC=018c
+-Fetch  PC=018d
+-Fetch  PC=018e
+-Fetch  PC=018e
+-Fetch  PC=018f
+-Fetch  PC=0190
+-Fetch  PC=0191
+-Fetch  PC=0192
+-Fetch  PC=0193
+-Fetch  PC=0194
+-Fetch  PC=0195
+-Fetch  PC=0196
+-Fetch  PC=0196
+-Fetch  PC=0197
+-Fetch  PC=0198
+-Fetch  PC=0199
+-Fetch  PC=019a
+-Fetch  PC=019b
+-Fetch  PC=019c
+-Fetch  PC=019d
+-Fetch  PC=019e
+-Fetch  PC=019f
+-Fetch  PC=019f
+-Fetch  PC=01a0
+-Fetch  PC=01a1
+-Fetch  PC=01a2
+-Fetch  PC=01a3
+-Fetch  PC=01a4
+-Fetch  PC=01a5		// and, at the end, just like the user-level TLB-miss handler, we restore the 
+-Fetch  PC=01a6		// EPC and PSR to previous values, and do an "rfe" back to user code.
+
+-Fetch  PC=0000		// ... so user code begins where it left off: fetching an instruction, which, this
+-Fetch  PC=0001		// time, succeeds ... and the program is extremely simple (just HALTs), so not 
+-Fetch  PC=0002		// much happens before we jump to the HALT handler ...
+-Fetch  PC=0003
+-Fetch  PC=0004
+
+-Fetch  PC=01f3		// ... here.  finis.
+-Fetch  PC=01f4
+-Fetch  PC=01f5
+-Fetch  PC=01f6
+-Fetch  PC=01f7
+
