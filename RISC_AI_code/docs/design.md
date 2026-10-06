@@ -1,6 +1,6 @@
 # Design notes
 
-How `design/RiSC.v` and `design/memories.v` work, and what was filled into the course skeleton.
+How the full `RiSC.v` and `memories.v` (steps 3 and 4, `step*_tlb_*/design/`) work, and what was filled into the course skeleton.
 
 ## Instruction set
 
@@ -76,7 +76,7 @@ Two further changes:
 
 Built normally, the PC resets to 0x0000 and the PSR to user mode, as stages 1–4 expect. Built with `-DBOOT`, the PC resets to 0x7e00 and the PSR to kernel mode, as `test-BOOT.v` expects. `memories.v` takes the PSR reset value as a parameter, `psr_reset`.
 
-## The TLB handlers (`software/sys-iii-iv.s`)
+## The TLB handlers (`step4_tlb_umiss/software/sys-iii-iv.s`)
 
 ```
 tlbumiss:  addi  r1, r4, 0     # save PSR (the ASID)

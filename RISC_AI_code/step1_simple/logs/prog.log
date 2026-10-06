@@ -1,0 +1,33 @@
+WARNING: testbench/test.v:15: $readmemh(prog.hex): Not enough words in the file for the requested range [0:65536].
+cycle   0  pc=0000  instr=6448  lui  rA=1 rB=0 rC=0 imm=1200   regs 0000 0000 0000 0000 0000 0000 0000
+cycle   1  pc=0001  instr=24b4  addi rA=1 rB=1 rC=4 imm=0034   regs 1200 0000 0000 0000 0000 0000 0000
+cycle   2  pc=0002  instr=2805  addi rA=2 rB=0 rC=5 imm=0005   regs 1234 0000 0000 0000 0000 0000 0000
+cycle   3  pc=0003  instr=2c00  addi rA=3 rB=0 rC=0 imm=0000   regs 1234 0005 0000 0000 0000 0000 0000
+cycle   4  pc=0004  instr=0d82  add  rA=3 rB=3 rC=2 imm=0002   regs 1234 0005 0000 0000 0000 0000 0000
+cycle   5  pc=0005  instr=297f  addi rA=2 rB=2 rC=7 imm=ffff   regs 1234 0005 0005 0000 0000 0000 0000
+cycle   6  pc=0006  instr=c87d  bne  rA=2 rB=0 rC=5 imm=fffd   regs 1234 0004 0005 0000 0000 0000 0000
+cycle   7  pc=0004  instr=0d82  add  rA=3 rB=3 rC=2 imm=0002   regs 1234 0004 0005 0000 0000 0000 0000
+cycle   8  pc=0005  instr=297f  addi rA=2 rB=2 rC=7 imm=ffff   regs 1234 0004 0009 0000 0000 0000 0000
+cycle   9  pc=0006  instr=c87d  bne  rA=2 rB=0 rC=5 imm=fffd   regs 1234 0003 0009 0000 0000 0000 0000
+cycle  10  pc=0004  instr=0d82  add  rA=3 rB=3 rC=2 imm=0002   regs 1234 0003 0009 0000 0000 0000 0000
+cycle  11  pc=0005  instr=297f  addi rA=2 rB=2 rC=7 imm=ffff   regs 1234 0003 000c 0000 0000 0000 0000
+cycle  12  pc=0006  instr=c87d  bne  rA=2 rB=0 rC=5 imm=fffd   regs 1234 0002 000c 0000 0000 0000 0000
+cycle  13  pc=0004  instr=0d82  add  rA=3 rB=3 rC=2 imm=0002   regs 1234 0002 000c 0000 0000 0000 0000
+cycle  14  pc=0005  instr=297f  addi rA=2 rB=2 rC=7 imm=ffff   regs 1234 0002 000e 0000 0000 0000 0000
+cycle  15  pc=0006  instr=c87d  bne  rA=2 rB=0 rC=5 imm=fffd   regs 1234 0001 000e 0000 0000 0000 0000
+cycle  16  pc=0004  instr=0d82  add  rA=3 rB=3 rC=2 imm=0002   regs 1234 0001 000e 0000 0000 0000 0000
+cycle  17  pc=0005  instr=297f  addi rA=2 rB=2 rC=7 imm=ffff   regs 1234 0001 000f 0000 0000 0000 0000
+cycle  18  pc=0006  instr=c87d  bne  rA=2 rB=0 rC=5 imm=fffd   regs 1234 0000 000f 0000 0000 0000 0000
+cycle  19  pc=0007  instr=8c10  sw   rA=3 rB=0 rC=0 imm=0010   regs 1234 0000 000f 0000 0000 0000 0000
+cycle  20  pc=0008  instr=b010  lw   rA=4 rB=0 rC=0 imm=0010   regs 1234 0000 000f 0000 0000 0000 0000
+cycle  21  pc=0009  instr=5604  nand rA=5 rB=4 rC=4 imm=0004   regs 1234 0000 000f 000f 0000 0000 0000
+cycle  22  pc=000a  instr=7800  lui  rA=6 rB=0 rC=0 imm=0000   regs 1234 0000 000f 000f fff0 0000 0000
+cycle  23  pc=000b  instr=3b0e  addi rA=6 rB=6 rC=6 imm=000e   regs 1234 0000 000f 000f fff0 0000 0000
+cycle  24  pc=000c  instr=ff00  jalr rA=7 rB=6 rC=0 imm=0000   regs 1234 0000 000f 000f fff0 000e 0000
+cycle  25  pc=000e  instr=3201  addi rA=4 rB=4 rC=1 imm=0001   regs 1234 0000 000f 000f fff0 000e 000d
+cycle  26  pc=000f  instr=e380  jalr rA=0 rB=7 rC=0 imm=0000   regs 1234 0000 000f 0010 fff0 000e 000d
+cycle  27  pc=000d  instr=e071  halt rA=0 rB=0 rC=1 imm=fff1   regs 1234 0000 000f 0010 fff0 000e 000d
+HALT after 28 cycles
+final regs r1-r7: 1234 0000 000f 0010 fff0 000e 000d
+mem[0010] (data) = 000f
+testbench/test.v:29: $finish called at 295 (1s)

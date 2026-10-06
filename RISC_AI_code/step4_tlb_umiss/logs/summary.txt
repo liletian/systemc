@@ -1,0 +1,11 @@
+STEP 4  user TLB-miss handler, with nested kernel misses
+run 2026-10-06 05:33 UTC, Icarus Verilog version 12.0 (stable) ()
+
+assembled: sys-iii-iv.s usr-iii.s usr-iv-dmiss.s usr-iv-imiss.s 
+
+4a-umiss: halted after 87 cycles; user r1-r7 = 2112 0000 0000 0000 0000 0000 0f00; cr1-cr7 = 0009 8003 c900 0089 0000 0000 0003; every cycle matches ref-phase3.log; expected registers: yes
+4b-nested: halted after 67 cycles; user r1-r7 = 2112 0000 0000 0000 0000 0000 0f00; cr1-cr7 = 0009 8004 c90f 0089 0000 0000 0003; expected registers: yes
+4c-six-loads: halted after 347 cycles; user r1-r7 = 0001 0002 0003 0004 0c00 0b00 0a00; cr1-cr7 = 0009 8003 c900 0089 0000 0000 000d; expected registers: yes
+4d-six-calls: halted after 371 cycles; user r1-r7 = 0001 0002 0003 0004 000a 000b 000c; cr1-cr7 = 0009 8003 c900 0089 0000 0000 000d; expected registers: yes
+
+PASS

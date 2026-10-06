@@ -1,0 +1,10 @@
+EXTRA  boot ROM: reset to 0x7e00 in kernel mode, load the OS from the simulated disk
+run 2026-10-06 05:33 UTC, Icarus Verilog version 12.0 (stable) ()
+
+assembled: rom-BOOT.s sys-iii-iv.s usr-iii.s 
+
+boot: boot ROM ran, loaded the OS from disk, entered user code at 0x0000
+      first 46 fetches identical to reference/BOOT-log.txt (that kernel's handlers sit at other addresses)
+      not expected to halt: the kernel has no page-fault handler, so the user program is never loaded
+
+PASS

@@ -1,0 +1,9 @@
+STEP 2  five-stage pipelined RiSC-16 (forwarding, load stall, branch squash; no TLB)
+run 2026-10-06 05:33 UTC, Icarus Verilog version 12.0 (stable) ()
+
+assembled: prog.s 
+
+prog: halted after 39 cycles; r1-r7 = 1234 0000 000f 0010 fff0 000e 000d; mem[data] = 000f; expected values: yes
+        pipeline events: 1 stall, 6 squashed fetches
+
+PASS

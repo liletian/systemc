@@ -1,0 +1,44 @@
+WARNING: testbench/test.v:15: $readmemh(prog.hex): Not enough words in the file for the requested range [0:65536].
+cycle   0  IF 0000 | ID 0000 0000 add  | EX 0000 add  | MEM 0000 add  | WB 0000 r0=0000                        regs 0000 0000 0000 0000 0000 0000 0000
+cycle   1  IF 0001 | ID 0000 6448 lui  | EX 0000 add  | MEM 0000 add  | WB 0000 r0=0000                        regs 0000 0000 0000 0000 0000 0000 0000
+cycle   2  IF 0002 | ID 0001 24b4 addi | EX 0000 lui  | MEM 0000 add  | WB 0000 r0=0000                        regs 0000 0000 0000 0000 0000 0000 0000
+cycle   3  IF 0003 | ID 0002 2805 addi | EX 0001 addi | MEM 0000 lui  | WB 0000 r0=0000                        regs 0000 0000 0000 0000 0000 0000 0000
+cycle   4  IF 0004 | ID 0003 2c00 addi | EX 0002 addi | MEM 0001 addi | WB 0000 r1=1200                        regs 0000 0000 0000 0000 0000 0000 0000
+cycle   5  IF 0005 | ID 0004 0d82 add  | EX 0003 addi | MEM 0002 addi | WB 0001 r1=1234                        regs 1200 0000 0000 0000 0000 0000 0000
+cycle   6  IF 0006 | ID 0005 297f addi | EX 0004 add  | MEM 0003 addi | WB 0002 r2=0005                        regs 1234 0000 0000 0000 0000 0000 0000
+cycle   7  IF 0007 | ID 0006 c87d bne  | EX 0005 addi | MEM 0004 add  | WB 0003 r3=0000         SQUASH         regs 1234 0005 0000 0000 0000 0000 0000
+cycle   8  IF 0004 | ID 0000 0000 add  | EX 0006 bne  | MEM 0005 addi | WB 0004 r3=0005                        regs 1234 0005 0000 0000 0000 0000 0000
+cycle   9  IF 0005 | ID 0004 0d82 add  | EX 0000 add  | MEM 0006 bne  | WB 0005 r2=0004                        regs 1234 0005 0005 0000 0000 0000 0000
+cycle  10  IF 0006 | ID 0005 297f addi | EX 0004 add  | MEM 0000 add  | WB 0006 r0=0000                        regs 1234 0004 0005 0000 0000 0000 0000
+cycle  11  IF 0007 | ID 0006 c87d bne  | EX 0005 addi | MEM 0004 add  | WB 0000 r0=0000         SQUASH         regs 1234 0004 0005 0000 0000 0000 0000
+cycle  12  IF 0004 | ID 0000 0000 add  | EX 0006 bne  | MEM 0005 addi | WB 0004 r3=0009                        regs 1234 0004 0005 0000 0000 0000 0000
+cycle  13  IF 0005 | ID 0004 0d82 add  | EX 0000 add  | MEM 0006 bne  | WB 0005 r2=0003                        regs 1234 0004 0009 0000 0000 0000 0000
+cycle  14  IF 0006 | ID 0005 297f addi | EX 0004 add  | MEM 0000 add  | WB 0006 r0=0000                        regs 1234 0003 0009 0000 0000 0000 0000
+cycle  15  IF 0007 | ID 0006 c87d bne  | EX 0005 addi | MEM 0004 add  | WB 0000 r0=0000         SQUASH         regs 1234 0003 0009 0000 0000 0000 0000
+cycle  16  IF 0004 | ID 0000 0000 add  | EX 0006 bne  | MEM 0005 addi | WB 0004 r3=000c                        regs 1234 0003 0009 0000 0000 0000 0000
+cycle  17  IF 0005 | ID 0004 0d82 add  | EX 0000 add  | MEM 0006 bne  | WB 0005 r2=0002                        regs 1234 0003 000c 0000 0000 0000 0000
+cycle  18  IF 0006 | ID 0005 297f addi | EX 0004 add  | MEM 0000 add  | WB 0006 r0=0000                        regs 1234 0002 000c 0000 0000 0000 0000
+cycle  19  IF 0007 | ID 0006 c87d bne  | EX 0005 addi | MEM 0004 add  | WB 0000 r0=0000         SQUASH         regs 1234 0002 000c 0000 0000 0000 0000
+cycle  20  IF 0004 | ID 0000 0000 add  | EX 0006 bne  | MEM 0005 addi | WB 0004 r3=000e                        regs 1234 0002 000c 0000 0000 0000 0000
+cycle  21  IF 0005 | ID 0004 0d82 add  | EX 0000 add  | MEM 0006 bne  | WB 0005 r2=0001                        regs 1234 0002 000e 0000 0000 0000 0000
+cycle  22  IF 0006 | ID 0005 297f addi | EX 0004 add  | MEM 0000 add  | WB 0006 r0=0000                        regs 1234 0001 000e 0000 0000 0000 0000
+cycle  23  IF 0007 | ID 0006 c87d bne  | EX 0005 addi | MEM 0004 add  | WB 0000 r0=0000                        regs 1234 0001 000e 0000 0000 0000 0000
+cycle  24  IF 0008 | ID 0007 8c10 sw   | EX 0006 bne  | MEM 0005 addi | WB 0004 r3=000f                        regs 1234 0001 000e 0000 0000 0000 0000
+cycle  25  IF 0009 | ID 0008 b010 lw   | EX 0007 sw   | MEM 0006 bne  | WB 0005 r2=0000                        regs 1234 0001 000f 0000 0000 0000 0000
+cycle  26  IF 000a | ID 0009 5604 nand | EX 0008 lw   | MEM 0007 sw   | WB 0006 r0=0000  STALL                 regs 1234 0000 000f 0000 0000 0000 0000
+cycle  27  IF 000a | ID 0009 5604 nand | EX 0009 add  | MEM 0008 lw   | WB 0007 r0=0010                        regs 1234 0000 000f 0000 0000 0000 0000
+cycle  28  IF 000b | ID 000a 7800 lui  | EX 0009 nand | MEM 0009 add  | WB 0008 r4=000f                        regs 1234 0000 000f 0000 0000 0000 0000
+cycle  29  IF 000c | ID 000b 3b0e addi | EX 000a lui  | MEM 0009 nand | WB 0009 r0=0020                        regs 1234 0000 000f 000f 0000 0000 0000
+cycle  30  IF 000d | ID 000c ff00 jalr | EX 000b addi | MEM 000a lui  | WB 0009 r5=fff0         SQUASH         regs 1234 0000 000f 000f 0000 0000 0000
+cycle  31  IF 000e | ID 0000 0000 add  | EX 000c jalr | MEM 000b addi | WB 000a r6=0000                        regs 1234 0000 000f 000f fff0 0000 0000
+cycle  32  IF 000f | ID 000e 3201 addi | EX 0000 add  | MEM 000c jalr | WB 000b r6=000e                        regs 1234 0000 000f 000f fff0 0000 0000
+cycle  33  IF 0010 | ID 000f e380 jalr | EX 000e addi | MEM 0000 add  | WB 000c r7=000d         SQUASH         regs 1234 0000 000f 000f fff0 000e 0000
+cycle  34  IF 000d | ID 0000 0000 add  | EX 000f jalr | MEM 000e addi | WB 0000 r0=0000                        regs 1234 0000 000f 000f fff0 000e 000d
+cycle  35  IF 000e | ID 000d e071 halt | EX 0000 add  | MEM 000f jalr | WB 000e r4=0010                        regs 1234 0000 000f 000f fff0 000e 000d
+cycle  36  IF 000e | ID 0000 0000 add  | EX 000d halt | MEM 0000 add  | WB 000f r0=0010                        regs 1234 0000 000f 0010 fff0 000e 000d
+cycle  37  IF 000e | ID 0000 0000 add  | EX 0000 add  | MEM 000d halt | WB 0000 r0=0000                        regs 1234 0000 000f 0010 fff0 000e 000d
+cycle  38  IF 000e | ID 0000 0000 add  | EX 0000 add  | MEM 0000 add  | WB 000d r0=000e                 HALT   regs 1234 0000 000f 0010 fff0 000e 000d
+HALT after 39 cycles
+final regs r1-r7: 1234 0000 000f 0010 fff0 000e 000d
+mem[0010] (data) = 000f
+testbench/test.v:29: $finish called at 405 (1s)

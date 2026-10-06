@@ -1,0 +1,9 @@
+cycle    time  event
+    6      60  exc 0x52 kernel TLB miss          pc 0001 -> vector 0103
+   12     120  tlbw       asid 0: vpn c9 -> pfn 02
+   14     140  rfe        -> resume at 0001
+   21     210  exc 0x71 trap HALT (system call)  pc 0003 -> vector 0102
+   26     260  halt: sys MODE_HALT from pc 0102
+
+27 cycles; final user regs r1-r7: 0000 0000 0000 0000 0000 0000 0000
+final control regs cr1-cr3, PSR, cr5-cr7:    c900 8003 00c9 0180 8004 0000 0004
