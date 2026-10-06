@@ -50,6 +50,14 @@
 
 `define ZERO		16'd0
 
+`ifdef BOOT
+`define RESET_PC	16'h7e00	// boot ROM page
+`define RESET_PSR	16'h0080	// start in kernel mode, ASID 0
+`else
+`define RESET_PC	16'h0000
+`define RESET_PSR	16'h0000
+`endif
+
 `define HALTINSTRUCTION	{ `EXTEND, 3'd0, 3'd0, `MODE_HALT }
 
 
@@ -521,7 +529,8 @@ module RiSC (clk, reset);
 	assign 	PC__in =	MUXpc_out;
 	assign	PC_we = 	~Pstall | exception_in_WB;
 
-	registerX #(16)		PC (.reset(res_A), .clk(clk_A), .out(PC__out), .in(PC__in), .we(PC_we));
+	// the PC resets to the boot ROM when built with +define+BOOT, else to 0
+	registerX #(16)		PC (.reset(1'b0), .clk(clk_A), .out(PC__out), .in(res_A ? `RESET_PC : PC__in), .we(PC_we | res_A));
 
 
 
@@ -572,7 +581,7 @@ module RiSC (clk, reset);
 	wire		ifid_writesRF =	(~IFID_op[2] | IFID_op[0])	// not a BEQ or SW
 					& ((IFID_op != `JALR) | IFID_im == `MODE_RUN);	// extendable ... 
 
-	control_and_general_regfile	RF (.reset(res_C), .clk(clk_C), .abus1(RF__src1), .dbus1(RF__out1),
+	control_and_general_regfile	#(.psr_reset(`RESET_PSR)) RF (.reset(res_C), .clk(clk_C), .abus1(RF__src1), .dbus1(RF__out1),
 					.abus2(RF__src2), .dbus2(RF__out2), .abus3(RF__tgt1), .dbus3(RF__in1),
 					.abus4(RF__tgt2), .dbus4(RF__in2), .psr_in(PSR__in), .psr_out(PSR__out),
 					.psr_we(PSR__we));

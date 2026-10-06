@@ -100,6 +100,7 @@ endmodule
 // the regular regs have 1 write port
 //
 module control_and_general_regfile (reset, clk, abus1, dbus1, abus2, dbus2, abus3, dbus3, abus4, dbus4, psr_in, psr_out, psr_we);
+	parameter psr_reset = 16'h0000;	// k-mode stack value at reset
 	input		reset, clk, psr_we;
 	input	[3:0]	abus1, abus2, abus3, abus4;
 	input	[15:0]	psr_in;
@@ -146,7 +147,7 @@ module control_and_general_regfile (reset, clk, abus1, dbus1, abus2, dbus2, abus
 			cr[5] <= `ZERO;
 			cr[6] <= `ZERO;
 			cr[7] <= `ZERO;
-			psr_kfifo <= `ZERO;
+			psr_kfifo <= psr_reset;
 		end 
 		else  begin
 			if (regnum3 != 3'd0) begin

@@ -26,3 +26,11 @@ The phase-1 reference was built with a stub TLB, so the TLB debug lines are left
 - **PSR**: the PSR keeps a stack of k-mode bits in `[15:7]`. An exception pushes a 1 and `rfe` pops it.
 - **Memory stage**: a load or store that misses raises a user or kernel TLB-miss exception, based on the k-mode bit in the instruction's rT. A store that misses doesn't write memory. `TLB_WRITE` is not passed on to write-back.
 - **Port fixes**: `IDEX_rT__out` and `EXMEM_rT__out` were declared as `input`; they are now `output`.
+
+## Boot ROM (`+define+BOOT`)
+
+When built with `+define+BOOT`, the PC resets to 0x7e00 (the boot ROM page) and the PSR resets to kernel mode, which is what `test-BOOT.v` and `BOOT-log.txt` expect. Without the flag, reset behaviour is unchanged (PC 0, user mode), so phases 1–3 still match.
+
+```
+iverilog -g2005 -DBOOT -o boot test-BOOT.v RiSC.v memories.v && vvp -n boot
+```
