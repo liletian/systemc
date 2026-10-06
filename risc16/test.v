@@ -4,6 +4,7 @@
 //   PHASE1: init.sys_i at 0, init.usr_i at 0, ASID 0 (no translation)
 //   PHASE2: init.sys_i at 0, init.usr_i at 0x300, ASID 9, TLB-A preloaded (9:00 -> 03)
 //   PHASE3: init.sys.important at 0, init_3.usr at 0x300, ASID 9, TLB-B preloaded (0:c9 -> 02)
+//   PHASE4: init.sys.important at 0, `USR at 0x300, ASID 9, empty TLB (like test-iv.v)
 //
 module top;
 	reg	clk, reset;
@@ -24,6 +25,9 @@ module top;
 `elsif PHASE2
 		$readmemh("init.sys_i", risc.MEM.m);
 		$readmemh("init.usr_i", risc.MEM.m, 16'h0300);
+`elsif PHASE4
+		$readmemh("init.sys.important", risc.MEM.m);
+		$readmemh(`USR, risc.MEM.m, 16'h0300);
 `else
 		$readmemh("init.sys.important", risc.MEM.m);
 		$readmemh("init_3.usr", risc.MEM.m, 16'h0300);

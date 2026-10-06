@@ -645,7 +645,10 @@ module RiSC (clk, reset);
 	wire		idex_is_tlbw = (IDEX_exc__out == `TLB_WRITE);
 	wire		idex_is_rfe = (IDEX_exc__out == `RFE_JUMP);
 
-	assign	MUXalu1_out = 	(idex_is_lui) ? IDEX_op0__out : IDEX_op1__out;
+	wire		idex_is_jalr = (IDEX_op__out == `JALR) & (IDEX_exc__out == `MODE_RUN);	// plain jalr, not an extended op
+
+	// lui and jalr write op0 (uimm / pc+1); everything else, incl. tlbw and rfe, passes op1 through
+	assign	MUXalu1_out = 	(idex_is_lui | idex_is_jalr) ? IDEX_op0__out : IDEX_op1__out;
 	assign	MUXalu2_out = 	(idex_is_addORnand) ? IDEX_op2__out : IDEX_op0__out;
 
 	assign	MUXrfe_out = 	(idex_is_rfe) ? IDEX_op1__out : IDEX_pc__out;	// rfe rB: jump target (EPC)

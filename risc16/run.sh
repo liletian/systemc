@@ -20,5 +20,15 @@ for p in 1 2 3; do
 		echo "phase $p: DIFF  (see: diff ref$p.f out$p.f)"; status=1
 	fi
 done
-rm -f sim1 sim2 sim3
+# phase 4: no reference log, so check that each program halts with the expected user registers
+for t in "init_3.usr:2112 0000 0000 0000 0000 0000 0f00" \
+         "usr-iv-dmiss.hex:0001 0002 0003 0004 0c00 0b00 0a00" \
+         "usr-iv-imiss.hex:0001 0002 0003 0004 000a 000b 000c"; do
+	u=${t%%:*}; want=${t#*:}
+	iverilog -g2005 -DPHASE4 -DUSR="\"$u\"" -o sim4 test.v RiSC.v memories.v 2>/dev/null || exit 1
+	got=$(vvp -n sim4 | grep -B20 'MEMWB_exc=02' | grep '^regs' | tail -1 | cut -c9-)
+	if [ "$got" = "$want" ]; then echo "phase 4 ($u): MATCH (halts, regs $got)"
+	else echo "phase 4 ($u): FAIL (regs: ${got:-no halt}, want $want)"; status=1; fi
+done
+rm -f sim1 sim2 sim3 sim4
 exit $status

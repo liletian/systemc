@@ -15,6 +15,8 @@ phase 3: MATCH (87 cycles)
 | 2 | `init.sys_i` | 0x0300 | ASID 9, TLB-A = 9:00 -> 03 | `ref-phase2.log` |
 | 3 | `init.sys.important` | 0x0300 (`init_3.usr`) | ASID 9, TLB-B = 0:c9 -> 02 | `ref-phase3.log` |
 
+Phase 4 (`test-iv.v`: empty TLB, so every first touch of a page nests a kernel TLB miss) has no reference log. `run.sh` instead checks that `init_3.usr`, `usr-iv-dmiss.s` and `usr-iv-imiss.s` each halt with the expected user registers.
+
 The phase-1 reference was built with a stub TLB, so the TLB debug lines are left out of that comparison.
 
 ## How the blanks were filled in
@@ -25,6 +27,7 @@ The phase-1 reference was built with a stub TLB, so the TLB debug lines are left
 - **rfe**: `rfe` carries rB (the EPC) as its PC down the pipeline, and the PC jumps there when it reaches write-back.
 - **PSR**: the PSR keeps a stack of k-mode bits in `[15:7]`. An exception pushes a 1 and `rfe` pops it.
 - **Memory stage**: a load or store that misses raises a user or kernel TLB-miss exception, based on the k-mode bit in the instruction's rT. A store that misses doesn't write memory. `TLB_WRITE` is not passed on to write-back.
+- **jalr**: `jalr` writes its return address (pc+1, carried in `op0`) to rA. The skeleton passed `op1` (the jump target) through the ALU for every opcode-7 instruction, so `jalr` wrote back its own target. None of the phase 1-3 programs uses `jalr`; `usr-iv-imiss.s` does.
 - **Port fixes**: `IDEX_rT__out` and `EXMEM_rT__out` were declared as `input`; they are now `output`.
 
 ## Boot ROM (`+define+BOOT`)
