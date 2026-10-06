@@ -37,3 +37,15 @@ When built with `+define+BOOT`, the PC resets to 0x7e00 (the boot ROM page) and 
 ```
 iverilog -g2005 -DBOOT -o boot test-BOOT.v RiSC.v memories.v && vvp -n boot
 ```
+
+## Course testbenches (`course/`)
+
+`course/run-course.sh` assembles the course sources with `a.c` and runs each stage with the course's own testbench against `RiSC.v`:
+
+| stage | testbench | kernel | user program | checks |
+|---|---|---|---|---|
+| i | `test-i.v` | `sys-i.s` | `usr-i.s` | trap → vector table → halt; matches `ref-phase1.log` |
+| ii | `test-ii.v` | `sys-ii.s` | `usr-ii.s` | user code through a preloaded TLB entry; matches `ref-phase2.log` |
+| iii | `test-iii.v` | `sys-iii-iv.s` | `usr-iii.s` | fetch and data TLB misses; matches `ref-phase3.log` |
+| iv | `test-iv.v` | `sys-iii-iv.s` | `usr-iii.s`, `usr-iv-dmiss.s`, `usr-iv-imiss.s` | empty TLB, nested kernel misses; expected registers at halt |
+| boot | `test-BOOT.v` (`+define+BOOT`) | `sys-iii-iv.s` | `usr-iii.s` | boot ROM loads the OS and enters user code |
